@@ -14,7 +14,6 @@ const phrases = [
 let missed = 0;
 
 
-// Start-button
 startBtn.addEventListener('click', (e) => {
     if(e.target.textContent === 'Try Again?') {
         // Reset hearts
@@ -30,6 +29,9 @@ startBtn.addEventListener('click', (e) => {
         // Remove the last winner-info text
         const infoText = document.getElementsByTagName('h3')[0];
         overlay.removeChild(infoText);
+
+        // Remove animation
+        ul.className ='';
     }
     // New random phrase gets generated regardless
     const phraseArray = getRandomPhraseAsArray(phrases);
@@ -71,7 +73,6 @@ function checkLetter(letter) {
     return null;
 }
 
-
 function checkWin() {
     const numOfShown = document.querySelectorAll('.show').length;
     const numOfLetters = document.querySelectorAll('.letter').length;
@@ -81,7 +82,11 @@ function checkWin() {
         setGameOverScreen('flex', 'lose', 'You Lose!');
 
     } else if (missed < numOfHearts && numOfShown === numOfLetters) {
-        setGameOverScreen('flex', 'win', 'You Win!');
+        ul.classList.add('blink-1');
+        setTimeout(() => {
+            setGameOverScreen('flex', 'win', 'You Win!');
+
+        }, 3000);
     }
 }
 
@@ -93,6 +98,7 @@ function setGameOverScreen(display, className, textContent) {
     }
     // Show a winner/loser information text and display it under the 'play again' btn
     const gameOverText = document.createElement('h3');
+    gameOverText.classList.add('bounce-in-top');
     gameOverText.textContent = textContent;
     startBtn.parentNode.insertBefore(gameOverText, startBtn.nextSibling);
 
